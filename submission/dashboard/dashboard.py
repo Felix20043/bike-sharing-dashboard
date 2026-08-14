@@ -97,6 +97,15 @@ daily_orders_df = create_daily_orders_df(main_day_df)
 p1_df = create_season_weather_df(main_day_df)
 reg_work, cas_holiday, offpeak_reg_mean, offpeak_cas_mean = create_hourly_peak_df(main_hour_df)
 
+def create_daily_orders_df(df):
+    """Menyiapkan DataFrame ringkasan harian"""
+    # Mengelompokkan berdasarkan tanggal dteday
+    daily_orders_df = df.groupby('dteday').agg({
+        'cnt': 'sum',
+        'registered': 'sum',
+        'casual': 'sum'
+    }).reset_index()
+    return daily_orders_df
 
 # ==============================================================================
 # 5. DASHBOARD UI (HEADER & METRIK SUMMARY)
