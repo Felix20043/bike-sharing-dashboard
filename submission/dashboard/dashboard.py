@@ -27,10 +27,6 @@ def create_daily_orders_df(df):
     }).reset_index()
     return daily_orders_df
 
-daily_orders_df = create_daily_orders_df(main_day_df)
-p1_df = create_season_weather_df(main_day_df)
-reg_work, cas_holiday, offpeak_reg_mean, offpeak_cas_mean = create_hourly_peak_df(main_hour_df)
-
 def create_daily_orders_df(df):
     """Menyiapkan DataFrame ringkasan harian"""
     daily_orders_df = df.resample(rule='D', on='dteday').agg({
@@ -110,7 +106,15 @@ main_hour_df = hour_df[
 ]
 
 # ==============================================================================
-# 4. DASHBOARD UI (HEADER & METRIK SUMMARY)
+# 4. MEMANGGIL FUNGSI (DATA SUDAH TERSEDIA)
+# ==============================================================================
+
+daily_orders_df = create_daily_orders_df(main_day_df)
+p1_df = create_season_weather_df(main_day_df)
+reg_work, cas_holiday, offpeak_reg_mean, offpeak_cas_mean = create_hourly_peak_df(main_hour_df)
+
+# ==============================================================================
+# 5. DASHBOARD UI (HEADER & METRIK SUMMARY)
 # ==============================================================================
 
 st.header("🚲 Bike Sharing Performance Dashboard")
@@ -133,7 +137,7 @@ st.markdown("---")
 
 
 # ==============================================================================
-# 5. VISUALISASI DATA (2 PERTANYAAN SMART)
+# 6. VISUALISASI DATA (2 PERTANYAAN SMART)
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
