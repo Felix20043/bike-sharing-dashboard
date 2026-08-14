@@ -52,12 +52,11 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 day_df = pd.read_csv(os.path.join(BASE_DIR, "main_data.csv"))
 hour_df = pd.read_csv(os.path.join(BASE_DIR, "hour_cleaned.csv"))
 
-min_date = day_df['dteday'].min()
-max_date = day_df['dteday'].max()
+day_df['dteday'] = pd.to_datetime(day_df['dteday'])
+hour_df['dteday'] = pd.to_datetime(hour_df['dteday'])
 
-# ==============================================================================
-# 3. SIDEBAR (FILTER RENTANG WAKTU)
-# ==============================================================================
+min_date = day_df['dteday'].dt.date.min()
+max_date = day_df['dteday'].dt.date.max()
 
 # ==============================================================================
 # 3. SIDEBAR (FILTER RENTANG WAKTU)
@@ -71,7 +70,6 @@ with st.sidebar:
     st.markdown("<h3 style='text-align: center;'>Bike Sharing App</h3>", unsafe_allow_html=True)
     st.write("")
 
-    # Ditambahkan key='main_date_filter' BIAR TIDAK BISA DUPLIKAT ID
     date_range = st.date_input(
         label='Rentang Waktu',
         min_value=min_date,
@@ -80,13 +78,11 @@ with st.sidebar:
         key="main_date_filter"
     )
 
-# Memastikan jika user memilih rentang tanggal lengkap
 if isinstance(date_range, list) and len(date_range) == 2:
     start_date, end_date = date_range
 else:
     start_date, end_date = min_date, max_date
 
-# Filter Dataset
 main_day_df = day_df[(day_df['dteday'].dt.date >= start_date) & 
                      (day_df['dteday'].dt.date <= end_date)]
 
