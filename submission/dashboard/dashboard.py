@@ -14,22 +14,13 @@ st.set_page_config(
 sns.set_theme(style='whitegrid')
 
 # ==============================================================================
-# 1. PEMANGGILAN FUNGSI DENGAN DATA YANG TELAH TERSEDIA
+# 1. DEFINISI FUNGSI PEMROSESAN DATA
 # ==============================================================================
 
 def create_daily_orders_df(df):
     """Menyiapkan DataFrame ringkasan harian"""
     # Mengelompokkan berdasarkan tanggal dteday
     daily_orders_df = df.groupby('dteday').agg({
-        'cnt': 'sum',
-        'registered': 'sum',
-        'casual': 'sum'
-    }).reset_index()
-    return daily_orders_df
-
-def create_daily_orders_df(df):
-    """Menyiapkan DataFrame ringkasan harian"""
-    daily_orders_df = df.resample(rule='D', on='dteday').agg({
         'cnt': 'sum',
         'registered': 'sum',
         'casual': 'sum'
