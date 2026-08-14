@@ -59,6 +59,10 @@ max_date = day_df['dteday'].max()
 # 3. SIDEBAR (FILTER RENTANG WAKTU)
 # ==============================================================================
 
+# ==============================================================================
+# 3. SIDEBAR (FILTER RENTANG WAKTU)
+# ==============================================================================
+
 with st.sidebar:
     _, col_mid, _ = st.columns([1, 2, 1])
     with col_mid:
@@ -67,22 +71,17 @@ with st.sidebar:
     st.markdown("<h3 style='text-align: center;'>Bike Sharing App</h3>", unsafe_allow_html=True)
     st.write("")
 
+    # Ditambahkan key='main_date_filter' BIAR TIDAK BISA DUPLIKAT ID
     date_range = st.date_input(
         label='Rentang Waktu',
         min_value=min_date,
         max_value=max_date,
-        value=[min_date, max_date]
-    )
-    
-    # Input Date Filter
-    start_date, end_date = st.date_input(
-        label='Rentang Waktu',
-        min_value=min_date,
-        max_value=max_date,
-        value=[min_date, max_date]
+        value=[min_date, max_date],
+        key="main_date_filter"
     )
 
-if len(date_range) == 2:
+# Memastikan jika user memilih rentang tanggal lengkap
+if isinstance(date_range, list) and len(date_range) == 2:
     start_date, end_date = date_range
 else:
     start_date, end_date = min_date, max_date
