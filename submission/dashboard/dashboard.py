@@ -14,7 +14,7 @@ st.set_page_config(
 sns.set_theme(style='whitegrid')
 
 # ==============================================================================
-# 1. HELPER FUNCTIONS (Fungsi Pengolah Data)
+# 1. PEMANGGILAN FUNGSI DENGAN DATA YANG TELAH TERSEDIA
 # ==============================================================================
 
 def create_daily_orders_df(df):
