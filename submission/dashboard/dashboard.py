@@ -17,10 +17,6 @@ sns.set_theme(style='whitegrid')
 # 1. HELPER FUNCTIONS (Fungsi Pengolah Data)
 # ==============================================================================
 
-daily_orders_df = create_daily_orders_df(main_day_df)
-p1_df = create_season_weather_df(main_day_df)
-reg_work, cas_holiday, offpeak_reg_mean, offpeak_cas_mean = create_hourly_peak_df(main_hour_df)
-
 def create_daily_orders_df(df):
     """Menyiapkan DataFrame ringkasan harian"""
     # Mengelompokkan berdasarkan tanggal dteday
@@ -30,6 +26,10 @@ def create_daily_orders_df(df):
         'casual': 'sum'
     }).reset_index()
     return daily_orders_df
+
+daily_orders_df = create_daily_orders_df(main_day_df)
+p1_df = create_season_weather_df(main_day_df)
+reg_work, cas_holiday, offpeak_reg_mean, offpeak_cas_mean = create_hourly_peak_df(main_hour_df)
 
 def create_daily_orders_df(df):
     """Menyiapkan DataFrame ringkasan harian"""
