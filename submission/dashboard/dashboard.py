@@ -52,6 +52,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 day_df = pd.read_csv(os.path.join(BASE_DIR, "main_data.csv"))
 hour_df = pd.read_csv(os.path.join(BASE_DIR, "hour_cleaned.csv"))
 
+min_date = day_df['dteday'].min()
+max_date = day_df['dteday'].max()
+
 # ==============================================================================
 # 3. SIDEBAR (FILTER RENTANG WAKTU)
 # ==============================================================================
