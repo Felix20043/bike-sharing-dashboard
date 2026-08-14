@@ -17,6 +17,20 @@ sns.set_theme(style='whitegrid')
 # 1. HELPER FUNCTIONS (Fungsi Pengolah Data)
 # ==============================================================================
 
+daily_orders_df = create_daily_orders_df(main_day_df)
+p1_df = create_season_weather_df(main_day_df)
+reg_work, cas_holiday, offpeak_reg_mean, offpeak_cas_mean = create_hourly_peak_df(main_hour_df)
+
+def create_daily_orders_df(df):
+    """Menyiapkan DataFrame ringkasan harian"""
+    # Mengelompokkan berdasarkan tanggal dteday
+    daily_orders_df = df.groupby('dteday').agg({
+        'cnt': 'sum',
+        'registered': 'sum',
+        'casual': 'sum'
+    }).reset_index()
+    return daily_orders_df
+
 def create_daily_orders_df(df):
     """Menyiapkan DataFrame ringkasan harian"""
     daily_orders_df = df.resample(rule='D', on='dteday').agg({
@@ -41,7 +55,6 @@ def create_hourly_peak_df(df_hour):
     offpeak_cas_mean = cas_holiday[~cas_holiday['hr'].isin(list(range(11, 18)))]['casual'].mean()
     
     return reg_work, cas_holiday, offpeak_reg_mean, offpeak_cas_mean
-
 
 # ==============================================================================
 # 2. LOAD DATASET
@@ -95,26 +108,9 @@ main_hour_df = hour_df[
     (hour_df['dteday'] >= pd.to_datetime(start_date)) & 
     (hour_df['dteday'] <= pd.to_datetime(end_date))
 ]
-# ==============================================================================
-# 4. MEMANGGIL HELPER FUNCTIONS
-# ==============================================================================
-
-daily_orders_df = create_daily_orders_df(main_day_df)
-p1_df = create_season_weather_df(main_day_df)
-reg_work, cas_holiday, offpeak_reg_mean, offpeak_cas_mean = create_hourly_peak_df(main_hour_df)
-
-def create_daily_orders_df(df):
-    """Menyiapkan DataFrame ringkasan harian"""
-    # Mengelompokkan berdasarkan tanggal dteday
-    daily_orders_df = df.groupby('dteday').agg({
-        'cnt': 'sum',
-        'registered': 'sum',
-        'casual': 'sum'
-    }).reset_index()
-    return daily_orders_df
 
 # ==============================================================================
-# 5. DASHBOARD UI (HEADER & METRIK SUMMARY)
+# 4. DASHBOARD UI (HEADER & METRIK SUMMARY)
 # ==============================================================================
 
 st.header("🚲 Bike Sharing Performance Dashboard")
@@ -137,7 +133,7 @@ st.markdown("---")
 
 
 # ==============================================================================
-# 6. VISUALISASI DATA (2 PERTANYAAN SMART)
+# 5. VISUALISASI DATA (2 PERTANYAAN SMART)
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
@@ -176,7 +172,6 @@ for i, season in enumerate(['Spring', 'Summer', 'Fall', 'Winter']):
         )
 
 st.pyplot(fig1)
-
 
 # ------------------------------------------------------------------------------
 # GRAFIK 2: LONJAKAN JAM SIBUK (SMART 2)
