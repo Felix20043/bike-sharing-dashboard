@@ -83,12 +83,12 @@ if isinstance(date_range, list) and len(date_range) == 2:
 else:
     start_date, end_date = min_date, max_date
 
+# Filter DataFrame berdasarkan rentang tanggal
 main_day_df = day_df[(day_df['dteday'].dt.date >= start_date) & 
                      (day_df['dteday'].dt.date <= end_date)]
 
 main_hour_df = hour_df[(hour_df['dteday'].dt.date >= start_date) & 
                        (hour_df['dteday'].dt.date <= end_date)]
-
 # ==============================================================================
 # 4. MEMANGGIL HELPER FUNCTIONS
 # ==============================================================================
