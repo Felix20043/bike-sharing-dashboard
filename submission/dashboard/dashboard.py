@@ -37,13 +37,13 @@ def create_daily_orders_df(df):
     return daily_orders_df
 
 def create_season_weather_df(df):
-    """Menyiapkan DataFrame untuk Pertanyaan SMART 1 (Cuaca vs Musim)"""
+    """Menyiapkan DataFrame untuk Analisis Pengaruh Cuaca dan Musim"""
     p1_df = df.pivot_table(index='season', columns='weathersit', values='cnt', aggfunc='mean')
     p1_df['Drop_Percent'] = ((p1_df['Clear/Partly Cloudy'] - p1_df['Light Snow/Rain']) / p1_df['Clear/Partly Cloudy']) * 100
     return p1_df
 
 def create_hourly_peak_df(df_hour):
-    """Menyiapkan DataFrame untuk Pertanyaan SMART 2 (Jam Sibuk)"""
+    """Menyiapkan DataFrame untuk Analisis Jam Sibuk Pengguna"""
     reg_work = df_hour[df_hour['workingday'] == 1].groupby('hr')['registered'].mean().reset_index()
     cas_holiday = df_hour[df_hour['workingday'] == 0].groupby('hr')['casual'].mean().reset_index()
     
@@ -135,7 +135,6 @@ with col3:
 
 st.markdown("---")
 
-
 # ==============================================================================
 # 6. VISUALISASI DATA (2 PERTANYAAN SMART)
 # ==============================================================================
@@ -162,7 +161,7 @@ ax1.set_xlabel('Musim (Season)', fontsize=10)
 ax1.set_ylabel('Rata-rata Penyewaan Harian (cnt)', fontsize=10)
 ax1.legend(title='Kondisi Cuaca', loc='upper left')
 
-# Menambahkan Annotasi Persentase Drop tepat di atas bar biru
+# Menambahkan anotasi persentase penurunan pada grafik
 seasons = main_day_df['season'].unique()
 for i, season in enumerate(['Spring', 'Summer', 'Fall', 'Winter']):
     if season in p1_df.index and 'Light Snow/Rain' in p1_df.columns:
