@@ -60,24 +60,19 @@ max_date = day_df['dteday'].max()
 # ==============================================================================
 
 with st.sidebar:
-    # Bikin 3 kolom biar gambarnya pas di tengah
     _, col_mid, _ = st.columns([1, 2, 1])
     with col_mid:
         st.image("https://cdn-icons-png.flaticon.com/512/2972/2972185.png", width=150)
     
     st.markdown("<h3 style='text-align: center;'>Bike Sharing App</h3>", unsafe_allow_html=True)
-    st.write("") # Spasi
+    st.write("")
 
-    try:
-        start_date, end_date = st.date_input(
-            label='Rentang Waktu',
-            min_value=min_date,
-            max_value=max_date,
-            value=[min_date, max_date]
-        )
-    except ValueError:
-        start_date = min_date
-        end_date = max_date
+    date_range = st.date_input(
+        label='Rentang Waktu',
+        min_value=min_date,
+        max_value=max_date,
+        value=[min_date, max_date]
+    )
     
     # Input Date Filter
     start_date, end_date = st.date_input(
@@ -87,13 +82,17 @@ with st.sidebar:
         value=[min_date, max_date]
     )
 
-# Filter Dataset Berdasarkan Tanggal yang Dipilih
+if len(date_range) == 2:
+    start_date, end_date = date_range
+else:
+    start_date, end_date = min_date, max_date
+
+# Filter Dataset
 main_day_df = day_df[(day_df['dteday'].dt.date >= start_date) & 
                      (day_df['dteday'].dt.date <= end_date)]
 
 main_hour_df = hour_df[(hour_df['dteday'].dt.date >= start_date) & 
                        (hour_df['dteday'].dt.date <= end_date)]
-
 
 # ==============================================================================
 # 4. MEMANGGIL HELPER FUNCTIONS
