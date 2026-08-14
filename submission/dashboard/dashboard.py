@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -46,17 +47,10 @@ def create_hourly_peak_df(df_hour):
 # 2. LOAD DATASET
 # ==============================================================================
 
-# Membaca data main_data.csv dan hour_cleaned.csv
-day_df = pd.read_csv("dashboard/main_data.csv")
-hour_df = pd.read_csv("dashboard/hour_cleaned.csv")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Memastikan tipe data datetime
-day_df['dteday'] = pd.to_datetime(day_df['dteday'])
-hour_df['dteday'] = pd.to_datetime(hour_df['dteday'])
-
-min_date = day_df['dteday'].min()
-max_date = day_df['dteday'].max()
-
+day_df = pd.read_csv(os.path.join(BASE_DIR, "main_data.csv"))
+hour_df = pd.read_csv(os.path.join(BASE_DIR, "hour_cleaned.csv"))
 
 # ==============================================================================
 # 3. SIDEBAR (FILTER RENTANG WAKTU)
