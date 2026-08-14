@@ -65,9 +65,19 @@ with st.sidebar:
     with col_mid:
         st.image("https://cdn-icons-png.flaticon.com/512/2972/2972185.png", width=150)
     
-    # Teks dipaksa rata tengah
     st.markdown("<h3 style='text-align: center;'>Bike Sharing App</h3>", unsafe_allow_html=True)
     st.write("") # Spasi
+
+    try:
+        start_date, end_date = st.date_input(
+            label='Rentang Waktu',
+            min_value=min_date,
+            max_value=max_date,
+            value=[min_date, max_date]
+        )
+    except ValueError:
+        start_date = min_date
+        end_date = max_date
     
     # Input Date Filter
     start_date, end_date = st.date_input(
@@ -78,11 +88,11 @@ with st.sidebar:
     )
 
 # Filter Dataset Berdasarkan Tanggal yang Dipilih
-main_day_df = day_df[(day_df['dteday'] >= pd.to_datetime(start_date)) & 
-                     (day_df['dteday'] <= pd.to_datetime(end_date))]
+main_day_df = day_df[(day_df['dteday'].dt.date >= start_date) & 
+                     (day_df['dteday'].dt.date <= end_date)]
 
-main_hour_df = hour_df[(hour_df['dteday'] >= pd.to_datetime(start_date)) & 
-                       (hour_df['dteday'] <= pd.to_datetime(end_date))]
+main_hour_df = hour_df[(hour_df['dteday'].dt.date >= start_date) & 
+                       (hour_df['dteday'].dt.date <= end_date)]
 
 
 # ==============================================================================
